@@ -16,10 +16,7 @@ const Dog = () => {
     gl.outputColorSpace = THREE.SRGBColorSpace;
   });
 
-  const [normalMap, sampleMatCap] = useTexture([
-    "/models/dog_normals.jpg",
-    "/mat/mat-2.png",
-  ]).map((texture) => {
+  const [normalMap] = useTexture(["/models/dog_normals.jpg"]).map((texture) => {
     texture.flipY = false;
     texture.colorSpace = THREE.SRGBColorSpace;
     return texture;
@@ -37,15 +34,103 @@ const Dog = () => {
   useEffect(() => {
     actions["Take 001"].play();
   }, [actions]);
-  const dogMaterial = new THREE.MeshMatcapMaterial({
-    normalMap: normalMap,
-    matcap: sampleMatCap,
+
+  const [
+    mat1,
+    mat2,
+    mat3,
+    mat4,
+    mat5,
+    mat6,
+    mat7,
+    mat8,
+    mat9,
+    mat10,
+    mat11,
+    mat12,
+    mat13,
+    mat14,
+    mat15,
+    mat16,
+    mat17,
+    mat18,
+    mat19,
+    mat20,
+  ] = useTexture([
+    "/mat/mat-1.png",
+    "/mat/mat-2.png",
+    "/mat/mat-3.png",
+    "/mat/mat-4.png",
+    "/mat/mat-5.png",
+    "/mat/mat-6.png",
+    "/mat/mat-7.png",
+    "/mat/mat-8.png",
+    "/mat/mat-9.png",
+    "/mat/mat-10.png",
+    "/mat/mat-11.png",
+    "/mat/mat-12.png",
+    "/mat/mat-13.png",
+    "/mat/mat-14.png",
+    "/mat/mat-15.png",
+    "/mat/mat-16.png",
+    "/mat/mat-17.png",
+    "/mat/mat-18.png",
+    "/mat/mat-19.png",
+    "/mat/mat-20.png",
+  ]).map((texture) => {
+    texture.colorSpace = THREE.SRGBColorSpace;
+    return texture;
+  });
+
+  const material = useRef({
+    uMatcap1: { value: mat19 },
+    uMatcap2: { value: mat2 },
+    uProgress: { value: 1.0 },
   });
 
   const branchMaterial = new THREE.MeshMatcapMaterial({
     normalMap: branchNormalMap,
     map: branchMap,
   });
+
+  const dogMaterial = new THREE.MeshMatcapMaterial({
+    normalMap: normalMap,
+    matcap: mat2,
+  });
+
+  function onBeforeCompile(shader) {
+    shader.uniforms.uMatcapTexture1 = material.current.uMatcap1;
+    shader.uniforms.uMatcapTexture2 = material.current.uMatcap2;
+    shader.uniforms.uProgress = material.current.uProgress;
+
+    // Store reference to shader uniforms for GSAP animation
+
+    shader.fragmentShader = shader.fragmentShader.replace(
+      "void main() {",
+      `
+        uniform sampler2D uMatcapTexture1;
+        uniform sampler2D uMatcapTexture2;
+        uniform float uProgress;
+
+        void main() {
+        `,
+    );
+
+    shader.fragmentShader = shader.fragmentShader.replace(
+      "vec4 matcapColor = texture2D( matcap, uv );",
+      `
+          vec4 matcapColor1 = texture2D( uMatcapTexture1, uv );
+          vec4 matcapColor2 = texture2D( uMatcapTexture2, uv );
+          float transitionFactor  = 0.2;
+          
+          float progress = smoothstep(uProgress - transitionFactor,uProgress, (vViewPosition.x+vViewPosition.y)*0.5 + 0.5);
+
+          vec4 matcapColor = mix(matcapColor2, matcapColor1, progress );
+        `,
+    );
+  }
+
+  dogMaterial.onBeforeCompile = onBeforeCompile;
 
   const dogModel = useRef(model);
 
@@ -96,6 +181,124 @@ const Dog = () => {
       child.material = branchMaterial;
     }
   });
+
+  useEffect(() => {
+    document
+      .querySelector(`.title[img-title="tomorrowland"]`)
+      .addEventListener("mouseenter", () => {
+        material.current.uMatcap1.value = mat19;
+        gsap.to(material.current.uProgress, {
+          value: 0.0,
+          duration: 0.5,
+          onComplete: () => {
+            material.current.uMatcap2.value = material.current.uMatcap1.value;
+            material.current.uProgress.value = 1.0;
+          },
+        });
+      });
+    // navy-pier
+    document
+      .querySelector(`.title[img-title="navy-pier"]`)
+      .addEventListener("mouseenter", () => {
+        material.current.uMatcap1.value = mat8;
+        gsap.to(material.current.uProgress, {
+          value: 0.0,
+          duration: 0.5,
+          onComplete: () => {
+            material.current.uMatcap2.value = material.current.uMatcap1.value;
+            material.current.uProgress.value = 1.0;
+          },
+        });
+      });
+
+    // msi chicago
+    document
+      .querySelector(`.title[img-title="msi-chicago"]`)
+      .addEventListener("mouseenter", () => {
+        material.current.uMatcap1.value = mat9;
+        gsap.to(material.current.uProgress, {
+          value: 0.0,
+          duration: 0.5,
+          onComplete: () => {
+            material.current.uMatcap2.value = material.current.uMatcap1.value;
+            material.current.uProgress.value = 1.0;
+          },
+        });
+      });
+
+    // louis phone
+    document
+      .querySelector(`.title[img-title="louis-phone"]`)
+      .addEventListener("mouseenter", () => {
+        material.current.uMatcap1.value = mat12;
+        gsap.to(material.current.uProgress, {
+          value: 0.0,
+          duration: 0.5,
+          onComplete: () => {
+            material.current.uMatcap2.value = material.current.uMatcap1.value;
+            material.current.uProgress.value = 1.0;
+          },
+        });
+      });
+
+    //kikk festival
+    document
+      .querySelector(`.title[img-title="kikk-festival"]`)
+      .addEventListener("mouseenter", () => {
+        material.current.uMatcap1.value = mat10;
+        gsap.to(material.current.uProgress, {
+          value: 0.0,
+          duration: 0.5,
+          onComplete: () => {
+            material.current.uMatcap2.value = material.current.uMatcap1.value;
+            material.current.uProgress.value = 1.0;
+          },
+        });
+      });
+
+    // kennedy center
+    document
+      .querySelector(`.title[img-title="kennedy-center"]`)
+      .addEventListener("mouseenter", () => {
+        material.current.uMatcap1.value = mat8;
+        gsap.to(material.current.uProgress, {
+          value: 0.0,
+          duration: 0.5,
+          onComplete: () => {
+            material.current.uMatcap2.value = material.current.uMatcap1.value;
+            material.current.uProgress.value = 1.0;
+          },
+        });
+      });
+
+    // royal opera
+    document
+      .querySelector(`.title[img-title="royal-opera"]`)
+      .addEventListener("mouseenter", () => {
+        material.current.uMatcap1.value = mat13;
+        gsap.to(material.current.uProgress, {
+          value: 0.0,
+          duration: 0.5,
+          onComplete: () => {
+            material.current.uMatcap2.value = material.current.uMatcap1.value;
+            material.current.uProgress.value = 1.0;
+          },
+        });
+      });
+
+    // mouse leave default material
+    document.querySelector(`.titles`).addEventListener("mouseleave", () => {
+      material.current.uMatcap1.value = mat2;
+      gsap.to(material.current.uProgress, {
+        value: 0.0,
+        duration: 0.5,
+        onComplete: () => {
+          material.current.uMatcap2.value = material.current.uMatcap1.value;
+          material.current.uProgress.value = 1.0;
+        },
+      });
+    });
+  }, []);
 
   return (
     <>

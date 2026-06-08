@@ -128,7 +128,7 @@ main {
     display: flex;
     flex-direction: column;
     padding-left: 10rem;
-    padding-block: 15rem;
+    margin-block: 15rem;
     gap: 1rem;
 
     .title {

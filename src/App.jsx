@@ -53,7 +53,7 @@ function App() {
             </div>
             {/*  */}
             <div className="nav-elem">
-              <i class="ri-arrow-right-s-line"></i> Our Show Reel
+              <i className="ri-arrow-right-s-line"></i> Our Show Reel
             </div>
             <div className="nav-elem">
               <i className="ri-menu-3-line"></i>
