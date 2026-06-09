@@ -141,7 +141,6 @@ const Dog = () => {
         endTrigger: "#section-3",
         start: "top top",
         end: "bottom bottom",
-        markers: true,
         scrub: true,
       },
     });
