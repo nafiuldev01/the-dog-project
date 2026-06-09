@@ -41,7 +41,7 @@ main {
 
 #section-1 {
   position: relative;
-  --gap: 3rem;
+  --gap: 5rem;
   nav {
     display: flex;
     justify-content: space-between;
@@ -75,7 +75,7 @@ main {
       padding-block: 5rem;
 
       h1 {
-        font-size: 5rem;
+        font-size: 6rem;
         line-height: 1;
         text-align: right;
       }
@@ -210,4 +210,59 @@ main:has(#section-2 .title[img-title="kennedy-center"]:hover) #kennedy-center {
 main:has(#section-2 .title[img-title="royal-opera"]:hover) #royal-opera {
   opacity: 1;
   background-color: rgb(176, 4, 4);
+}
+
+#section-3 {
+  padding-block: 5rem;
+  padding-inline: 5rem;
+
+  .top,
+  .bottom {
+    display: flex;
+    width: 100%;
+    gap: 6rem;
+  }
+  .left,
+  .right {
+    width: 50%;
+  }
+
+  .top .left {
+    padding-left: 15rem;
+    position: relative;
+    h3 {
+      font-size: 3rem;
+      font-weight: 100;
+    }
+  }
+
+  .bottom .right {
+    padding-top: 5rem;
+    display: flex;
+    gap: 3rem;
+    p {
+      opacity: 1;
+      font-weight: 200;
+      font-size: 1rem;
+    }
+  }
+
+  .bottom .right button {
+    display: block;
+    margin-top: 3rem;
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px solid red;
+    color: white;
+    padding: 1rem;
+    font-size: 1rem;
+    font-weight: 500;
+    opacity: 1;
+    cursor: pointer;
+    transition: all 0.3s linear;
+  }
+
+  .bottom .right button:hover {
+    opacity: 0.5;
+  }
 }
